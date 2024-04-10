@@ -1,9 +1,9 @@
 part of 'lil_snack.dart';
 
-/// Scope of Lil Snack feature.
+/// Scope of LilSnack feature.
 @immutable
 class LilSnackMessenger extends StatefulWidget {
-  /// Creates a scope of Lil Snack feature.
+  /// Creates a scope of LilSnack feature.
   const LilSnackMessenger({
     required this.child,
     super.key,
@@ -42,7 +42,7 @@ class LilSnackMessengerState extends State<LilSnackMessenger>
   /// State of Overlay.
   late final OverlayState _overlayState;
 
-  /// Controller of active [_LilSnackMessage].
+  /// Controller of active LilSnack.
   _LilSnackController? _currentController;
 
   @override
@@ -68,43 +68,55 @@ class LilSnackMessengerState extends State<LilSnackMessenger>
         child: widget.child,
       );
 
-  /// Shows message.
-  void show(LilSnack lilSnack) {
+  /// Adds message to queue.
+  void show(LilSnackBase lilSnack) {
     final controller = _LilSnackController(
       vsync: this,
       onDispose: _upd,
       lilSnack: lilSnack,
     );
+    if (lilSnack.unique && !_isUnique(controller)) return;
     _controllers.addLast(controller);
     _upd();
   }
 
-  /// Hides message.
+  /// Hides current message.
   void hide() {
-    _currentController?.close(_LilSnackClosedReason.hide);
-    _currentController = null;
+    if (_currentController != null) {
+      _currentController?.close(_LilSnackClosedReason.hide);
+      _currentController = null;
+    }
   }
 
   /// Removes all messages.
   void removeAll() {
-    for (final controller in _controllers) {
-      controller.dispose();
+    if (_controllers.isNotEmpty) {
+      for (final controller in _controllers) {
+        controller.dispose();
+      }
+      _controllers.clear();
     }
-    _controllers.clear();
-    _currentController?.close(_LilSnackClosedReason.remove);
-    _currentController = null;
+    if (_currentController != null) {
+      _currentController?.close(_LilSnackClosedReason.remove);
+      _currentController = null;
+    }
   }
 
   /// Updates messages.
   void _upd() {
-    if (_controllers.isEmpty) return;
     final isCurrentControllerDisposed = _currentController?.isDisposed ?? true;
     if (!isCurrentControllerDisposed) return;
+    _currentController = null;
+    if (_controllers.isEmpty) return;
     final controller = _controllers.removeFirst();
     _currentController = controller;
     _overlayState.insert(controller.lilSnackEntry);
     controller.show();
   }
+
+  /// Returns true if the [controller] is unique.
+  bool _isUnique(_LilSnackController controller) =>
+      !_controllers.contains(controller) && _currentController != controller;
 }
 
 /// Widget that passes down the tree [LilSnackMessengerState].

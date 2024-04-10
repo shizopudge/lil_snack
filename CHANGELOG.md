@@ -1,3 +1,18 @@
 ## 0.0.1
 
 * initial release of the lil_snack package, which can show custom messages to the user.
+
+## 1.0.0
+
+* added unique functionality
+* changed comments
+* changed names
+* changed usage of LilSnack
+* changed example app
+* changed readme
+* refactored
+* small fixes
+
+## 1.0.1
+
+* update gifs in readme

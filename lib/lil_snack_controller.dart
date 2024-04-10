@@ -1,42 +1,42 @@
 part of 'lil_snack.dart';
 
-/// Controller of [_LilSnackMessage].
-final class _LilSnackController {
-  /// Creates controller of [_LilSnackMessage].
+/// Controller of LilSnack message.
+final class _LilSnackController with EquatableMixin {
+  /// Creates a controller of LilSnack message.
   _LilSnackController({
     required TickerProvider vsync,
     required VoidCallback onDispose,
-    required LilSnack lilSnack,
-  })  : _onDisposeCallback = onDispose,
+    required LilSnackBase lilSnack,
+  })  : _onDispose = onDispose,
         _lilSnack = lilSnack {
     _init(vsync: vsync, lilSnack: lilSnack);
   }
 
-  /// Method that is called when [_LilSnackController] disposes.
-  final VoidCallback _onDisposeCallback;
+  /// Method that is called when this controller disposes.
+  final VoidCallback _onDispose;
 
-  /// Configuration of [_LilSnackMessage].
-  final LilSnack _lilSnack;
+  /// Configuration of LilSnack message.
+  final LilSnackBase _lilSnack;
 
-  /// [Completer] of [_LilSnackController].
-  late final Completer<_LilSnackClosedReason> _completer;
-
-  /// Entry of [_LilSnackMessage] in overlay.
+  /// Entry of LilSnack message in overlay.
   late final _LilSnackEntry _lilSnackEntry;
 
-  /// Controller of [_LilSnackMessage] animation.
+  /// Controller of LilSnack message animation.
   late final AnimationController _animationController;
 
-  /// Timer for close [_LilSnackMessage].
+  /// [Completer] of this controller.
+  Completer<_LilSnackClosedReason>? _completer;
+
+  /// Timer for close LilSnack message.
   Timer? _timer;
 
-  /// Whether [_LilSnackMessage] is shown.
+  /// Whether LilSnack message is shown.
   bool _shown = false;
 
-  /// Whether [_LilSnackMessage] is disposed.
+  /// Whether this controller is disposed.
   bool isDisposed = false;
 
-  /// Shows [_LilSnackMessage].
+  /// Shows LilSnack message.
   Future<void> show() {
     _shown = true;
     _timer = _setupTimer(
@@ -47,13 +47,13 @@ final class _LilSnackController {
     return _animationController.forward();
   }
 
-  /// Closes [_LilSnackMessage].
+  /// Closes LilSnack message.
   void close(_LilSnackClosedReason reason) => _complete(reason);
 
-  /// Initializes the [_LilSnackController].
+  /// Initializes the controller.
   void _init({
     required TickerProvider vsync,
-    required LilSnack lilSnack,
+    required LilSnackBase lilSnack,
   }) {
     _completer = Completer<_LilSnackClosedReason>()..future.then(_onComplete);
     _lilSnackEntry = _createLilSnackEntry();
@@ -64,13 +64,15 @@ final class _LilSnackController {
     );
   }
 
-  /// Completes [_LilSnackController].
+  /// Completes this controller.
   void _complete(_LilSnackClosedReason reason) {
-    final isCompleted = _completer.isCompleted;
-    if (!isCompleted) _completer.complete(reason);
+    final completer = _completer;
+    if (completer == null) return;
+    final isCompleted = completer.isCompleted;
+    if (!isCompleted) completer.complete(reason);
   }
 
-  /// Callback that invokes when [_completer] future completes.
+  /// Callback that invokes when future of [_completer] completes.
   Future<void> _onComplete(_LilSnackClosedReason reason) async {
     final isDismissed = reason == _LilSnackClosedReason.dismiss;
     if (!isDismissed) await _animationController.reverse();
@@ -87,35 +89,60 @@ final class _LilSnackController {
       );
 
   /// Creates [_LilSnackEntry].
-  _LilSnackEntry _createLilSnackEntry() => _LilSnackEntry(
-        _LilSnackMessage(
-          text: _lilSnack.text,
-          type: _lilSnack.type,
+  _LilSnackEntry _createLilSnackEntry() {
+    final lilSnackMessage = switch (_lilSnack) {
+      LilSnack() => _LilSnackMessage(
+          onTap: _lilSnack.onTap,
           controller: this,
+          spaceBetweenIconAndMessage: _lilSnack.spaceBetweenIconAndMessage,
+          spaceBetweenMessageAndAction: _lilSnack.spaceBetweenMessageAndAction,
+          externalPadding: _lilSnack.externalPadding,
+          internalPadding: _lilSnack.internalPadding,
+          dismissDirection: _lilSnack.dismissDirection,
+          trailing: _lilSnack.trailing,
+          type: _lilSnack.type,
+          text: _lilSnack.text,
           maxLines: _lilSnack.maxLines,
+          textAlign: _lilSnack.textAlign,
+          textOverflow: _lilSnack.textOverflow,
           position: _lilSnack.position,
-          duration: _lilSnack.duration,
-          animationDuration: _lilSnack.animationDuration,
-          reverseAnimationDuration: _lilSnack.reverseAnimationDuration,
+          showIcon: _lilSnack.showIcon,
+          dismissible: _lilSnack.dismissible,
+          animationBuilder: _lilSnack.animationBuilder,
+          key: UniqueKey(),
+        ),
+      CustomLilSnack() => _CustomLilSnackMessage(
+          onTap: _lilSnack.onTap,
+          controller: this,
+          position: _lilSnack.position,
           spaceBetweenIconAndMessage: _lilSnack.spaceBetweenIconAndMessage,
           spaceBetweenMessageAndAction: _lilSnack.spaceBetweenMessageAndAction,
           externalPadding: _lilSnack.externalPadding,
           internalPadding: _lilSnack.internalPadding,
           expandContent: _lilSnack.expandContent,
-          showIcon: _lilSnack.showIcon,
           dismissible: _lilSnack.dismissible,
-          onTap: _lilSnack.onTap,
           content: _lilSnack.content,
-          action: _lilSnack.action,
-          icon: _lilSnack.icon,
+          trailing: _lilSnack.trailing,
+          leading: _lilSnack.leading,
           decoration: _lilSnack.decoration,
-          textAlign: _lilSnack.textAlign,
-          textOverflow: _lilSnack.textOverflow,
           dismissDirection: _lilSnack.dismissDirection,
           animationBuilder: _lilSnack.animationBuilder,
           key: UniqueKey(),
         ),
-      );
+      CustomChildLilSnack() => _CustomChildLilSnackMessage(
+          onTap: _lilSnack.onTap,
+          controller: this,
+          position: _lilSnack.position,
+          dismissible: _lilSnack.dismissible,
+          dismissDirection: _lilSnack.dismissDirection,
+          animationBuilder: _lilSnack.animationBuilder,
+          key: UniqueKey(),
+          child: _lilSnack.child,
+        ),
+    };
+
+    return _LilSnackEntry(lilSnackMessage);
+  }
 
   /// Cleans the resources of this controller.
   Future<void> dispose() async {
@@ -126,14 +153,18 @@ final class _LilSnackController {
     }
     _lilSnackEntry.dispose();
     _animationController.dispose();
+    _completer = null;
     isDisposed = true;
     await Future<void>.delayed(_lilSnack.delayBeforeNextLilSnack);
-    _onDisposeCallback();
+    _onDispose();
   }
 
   /// Returns [_LilSnackEntry].
   _LilSnackEntry get lilSnackEntry => _lilSnackEntry;
 
-  /// Returns animation controller of [_LilSnackMessage].
+  /// Returns animation controller of LilSnack message.
   AnimationController get animationController => _animationController;
+
+  @override
+  List<Object?> get props => [_lilSnack];
 }

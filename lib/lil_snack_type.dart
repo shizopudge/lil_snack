@@ -1,6 +1,6 @@
 part of 'lil_snack.dart';
 
-/// Lil snack type enum.
+/// Type of LilSnack.
 enum LilSnackType {
   /// Type of success [_LilSnackMessage].
   success,

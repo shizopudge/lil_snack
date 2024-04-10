@@ -1,16 +1,16 @@
 part of 'lil_snack.dart';
 
-/// Reason for closing [_LilSnackMessage].
+/// Reason for closing LilSnack message.
 enum _LilSnackClosedReason {
-  /// [_LilSnackMessage] closed by hide method.
+  /// LilSnack message closed by hide method.
   hide,
 
-  /// [_LilSnackMessage] closed by dismiss.
+  /// LilSnack message closed by dismiss.
   dismiss,
 
-  /// [_LilSnackMessage] was removed.
+  /// LilSnack message was removed.
   remove,
 
-  /// [_LilSnackMessage] removed due to timeout
+  /// LilSnack message removed due to timeout
   timeout;
 }

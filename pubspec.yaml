@@ -1,7 +1,7 @@
 name: lil_snack
 description: "Package for displaying messages to the user. You can set basic message styles and easily show beautiful 
 alerts to the user. You can also create your own unique alerts."
-version: 0.0.1
+version: 1.0.1
 homepage: https://github.com/shizopudge/lil_snack
 repository: https://github.com/shizopudge/lil_snack
 
@@ -18,13 +18,14 @@ environment:
   flutter: ">=1.17.0"
 
 dependencies:
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
 
 dev_dependencies:
+  flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

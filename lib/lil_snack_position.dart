@@ -1,6 +1,6 @@
 part of 'lil_snack.dart';
 
-/// Lil snack position enum.
+/// Position of LilSnack.
 enum LilSnackPosition {
   /// On top of the screen.
   top,

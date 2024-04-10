@@ -7,6 +7,6 @@ class _LilSnackEntry extends OverlayEntry {
     this.lilSnack,
   ) : super(builder: (_) => lilSnack);
 
-  /// {@macro lil_snack_message}
-  final _LilSnackMessage lilSnack;
+  /// LilSnack widget.
+  final _LilSnackMessageBase lilSnack;
 }
