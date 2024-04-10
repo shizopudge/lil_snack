@@ -1,9 +1,9 @@
 part of 'lil_snack.dart';
 
-/// Default animation of [_LilSnackMessage].
+/// Default animation of LilSnack message.
 @immutable
 class _DefaultLilSnackAnimation extends StatelessWidget {
-  /// Creates a default animation of [_LilSnackMessage].
+  /// Creates a default animation of LilSnack message.
   const _DefaultLilSnackAnimation({
     required this.animation,
     required this.position,
@@ -13,7 +13,7 @@ class _DefaultLilSnackAnimation extends StatelessWidget {
   /// Animation for [_DefaultLilSnackAnimation].
   final Animation<double> animation;
 
-  /// Position of [_LilSnackMessage].
+  /// Position of LilSnack message.
   final LilSnackPosition position;
 
   /// Child widget.
