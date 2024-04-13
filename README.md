@@ -222,6 +222,11 @@ ThemeData.light().copyWith(
       );
 ```
 
+## Uniqueness of messages
+
+To keep your message unique, add a key to the passed widgets, such as an action, content, icon or child. Otherwise, 
+the message uniqueness check will not work correctly.
+
 ## Additional information
 
 For a better understanding of how to use the package, see the example app.

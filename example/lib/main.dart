@@ -258,8 +258,8 @@ class _TypedMessagesPage extends StatelessWidget {
           text: 'Warning message with action.',
           trailing: CupertinoButton(
             // To keep your message unique, add a key to the passed widgets,
-            // such as an action, content, or icon. Otherwise, the message
-            // uniqueness check will not work correctly.
+            // such as an action, content, icon or child. Otherwise, the
+            // message uniqueness check will not work correctly.
             key: const Key('warning-message-action'),
             onPressed: () => debugPrint('Action!'),
             minSize: 20,

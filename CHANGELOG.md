@@ -16,3 +16,8 @@
 ## 1.0.1
 
 * update gifs in readme
+
+## 1.0.2
+
+* changed comment about the uniqueness of messages in the example app
+* added information about the uniqueness of messages to the readme
