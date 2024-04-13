@@ -12,8 +12,5 @@ enum LilSnackType {
   warning,
 
   /// Type of notification [_LilSnackMessage].
-  notification,
-
-  /// Type of custom [_LilSnackMessage].
-  custom;
+  notification;
 }

@@ -13,9 +13,6 @@ sealed class LilSnackBase with EquatableMixin {
   /// Providing a constant constructor for child classes.
   const LilSnackBase();
 
-  /// Type of message.
-  LilSnackType get type;
-
   /// Position of message.
   LilSnackPosition get position;
 
@@ -88,7 +85,7 @@ final class LilSnack extends LilSnackBase {
   @override
   final VoidCallback? onTap;
 
-  @override
+  /// Type of message.
   final LilSnackType type;
 
   /// The text that will be displayed by [_LilSnackMessage].
@@ -282,11 +279,7 @@ final class CustomLilSnack extends LilSnackBase {
   final LilSnackAnimationBuilder? animationBuilder;
 
   @override
-  LilSnackType get type => LilSnackType.custom;
-
-  @override
   List<Object?> get props => [
-        type,
         position,
         duration,
         animationDuration,
@@ -361,11 +354,7 @@ final class CustomChildLilSnack extends LilSnackBase {
   final LilSnackAnimationBuilder? animationBuilder;
 
   @override
-  LilSnackType get type => LilSnackType.custom;
-
-  @override
   List<Object?> get props => [
-        type,
         position,
         duration,
         animationDuration,

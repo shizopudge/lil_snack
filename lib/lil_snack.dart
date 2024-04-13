@@ -49,11 +49,7 @@ final class _LilSnackMessage extends _LilSnackMessageBase {
     required this.dismissible,
     required this.animationBuilder,
     required super.key,
-  }) : assert(
-          type != LilSnackType.custom,
-          'for custom message use another widget '
-          '[_CustomLilSnackMessage] or [_CustomChildLilSnackMessage]',
-        );
+  });
 
   /// Pressing handler.
   final VoidCallback? onTap;
@@ -142,61 +138,57 @@ final class _LilSnackMessage extends _LilSnackMessageBase {
         LilSnackType.error => lilSnackTheme.errorIcon,
         LilSnackType.warning => lilSnackTheme.warningIcon,
         LilSnackType.notification => lilSnackTheme.notificationIcon,
-        LilSnackType.custom => null,
       };
 
-      if (iconData != null) {
-        final iconColor = switch (type) {
-          LilSnackType.success => lilSnackTheme.successIconColor,
-          LilSnackType.error => lilSnackTheme.errorIconColor,
-          LilSnackType.warning => lilSnackTheme.warningIconColor,
-          LilSnackType.notification => lilSnackTheme.notificationIconColor,
-          LilSnackType.custom => null,
-        };
+      final iconColor = switch (type) {
+        LilSnackType.success => lilSnackTheme.successIconColor,
+        LilSnackType.error => lilSnackTheme.errorIconColor,
+        LilSnackType.warning => lilSnackTheme.warningIconColor,
+        LilSnackType.notification => lilSnackTheme.notificationIconColor,
+      };
 
-        if (iconColor == null) {
-          throw FlutterError.fromParts(<DiagnosticsNode>[
-            ErrorSummary('iconColor not specified.'),
-            ErrorDescription(
-              '_LilSnackMessage requires the iconColor specified in the '
-              'LilSnackTheme.',
-            ),
-            ErrorHint(
-              'Typically, the iconColor is specified in the LilSnackTheme is '
-              'introduced by the MaterialApp theme at the top of your '
-              'application widget tree.',
-            ),
-          ]);
-        }
-
-        final iconSize = lilSnackTheme.iconSize;
-
-        if (iconSize == null) {
-          throw FlutterError.fromParts(<DiagnosticsNode>[
-            ErrorSummary('iconSize not specified.'),
-            ErrorDescription(
-              '_LilSnackMessage requires the iconSize specified in the '
-              'LilSnackTheme.',
-            ),
-            ErrorHint(
-              'Typically, the iconSize is specified in the LilSnackTheme is '
-              'introduced by the MaterialApp theme at the top of your '
-              'application widget tree.',
-            ),
-          ]);
-        }
-
-        icon = SizedBox.square(
-          dimension: iconSize,
-          child: FittedBox(
-            fit: BoxFit.cover,
-            child: Icon(
-              iconData,
-              color: iconColor,
-            ),
+      if (iconColor == null) {
+        throw FlutterError.fromParts(<DiagnosticsNode>[
+          ErrorSummary('iconColor not specified.'),
+          ErrorDescription(
+            '_LilSnackMessage requires the iconColor specified in the '
+            'LilSnackTheme.',
           ),
-        );
+          ErrorHint(
+            'Typically, the iconColor is specified in the LilSnackTheme is '
+            'introduced by the MaterialApp theme at the top of your '
+            'application widget tree.',
+          ),
+        ]);
       }
+
+      final iconSize = lilSnackTheme.iconSize;
+
+      if (iconSize == null) {
+        throw FlutterError.fromParts(<DiagnosticsNode>[
+          ErrorSummary('iconSize not specified.'),
+          ErrorDescription(
+            '_LilSnackMessage requires the iconSize specified in the '
+            'LilSnackTheme.',
+          ),
+          ErrorHint(
+            'Typically, the iconSize is specified in the LilSnackTheme is '
+            'introduced by the MaterialApp theme at the top of your '
+            'application widget tree.',
+          ),
+        ]);
+      }
+
+      icon = SizedBox.square(
+        dimension: iconSize,
+        child: FittedBox(
+          fit: BoxFit.cover,
+          child: Icon(
+            iconData,
+            color: iconColor,
+          ),
+        ),
+      );
     }
 
     final textStyle = switch (type) {
@@ -204,7 +196,6 @@ final class _LilSnackMessage extends _LilSnackMessageBase {
       LilSnackType.error => lilSnackTheme.errorTextStyle,
       LilSnackType.warning => lilSnackTheme.warningTextStyle,
       LilSnackType.notification => lilSnackTheme.notificationTextStyle,
-      LilSnackType.custom => null,
     };
 
     if (textStyle == null) {
@@ -227,7 +218,6 @@ final class _LilSnackMessage extends _LilSnackMessageBase {
       LilSnackType.error => lilSnackTheme.errorBackgroundColor,
       LilSnackType.warning => lilSnackTheme.warningBackgroundColor,
       LilSnackType.notification => lilSnackTheme.notificationBackgroundColor,
-      LilSnackType.custom => null,
     };
 
     if (backgroundColor == null) {
