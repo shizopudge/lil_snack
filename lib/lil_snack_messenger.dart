@@ -102,6 +102,26 @@ class LilSnackMessengerState extends State<LilSnackMessenger>
     }
   }
 
+  /// Removes all messages and adds message to queue.
+  ///
+  /// Use this method instead of ```removeAll``` and then ```show```.
+  void removeAllAndShow(LilSnackBase lilSnack) {
+    if (_controllers.isNotEmpty) {
+      for (final controller in _controllers) {
+        controller.dispose();
+      }
+      _controllers.clear();
+    }
+    _currentController?.close(_LilSnackClosedReason.remove);
+    final controller = _LilSnackController(
+      vsync: this,
+      onDispose: _upd,
+      lilSnack: lilSnack,
+    );
+    _controllers.addLast(controller);
+    _upd();
+  }
+
   /// Updates messages.
   void _upd() {
     final isCurrentControllerDisposed = _currentController?.isDisposed ?? true;

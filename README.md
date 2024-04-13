@@ -103,6 +103,22 @@ ThemeData.light().copyWith(
   void _removeAll() => LilSnackMessenger.of(context).removeAll();
 ```
 
+- To remove all messages and add message to queue. Use this method instead of ```removeAll``` and then ```show```.
+
+```dart
+  /// Removes all messages and adds message to queue.
+  ///
+  /// Use this method instead of ```removeAll``` and then ```show```.
+  void _removeAllAndShow(BuildContext context) =>
+      LilSnackMessenger.of(context).removeAllAndShow(
+        const LilSnack(
+          type: LilSnackType.notification,
+          text: 'Remove all and show example.',
+          showIcon: false,
+        ),
+      );
+```
+
 - To show custom message.
 
 ```dart

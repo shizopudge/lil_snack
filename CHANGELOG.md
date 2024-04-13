@@ -22,3 +22,7 @@
 * changed comment about the uniqueness of messages in the example app
 * added information about the uniqueness of messages to the readme
 * removed ```LilSnackType.custom```
+
+## 1.1.1
+
+* added new method ```removeAllAndShow```

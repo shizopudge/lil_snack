@@ -208,6 +208,13 @@ class _TypedMessagesPage extends StatelessWidget {
                         const Text('Show "Notification" with pressing handler'),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: ElevatedButton(
+                    onPressed: () => _removeAllAndShow(context),
+                    child: const Text('Show "Remove all and show example"'),
+                  ),
+                ),
               ],
             ),
           ),
@@ -313,6 +320,18 @@ class _TypedMessagesPage extends StatelessWidget {
           type: LilSnackType.notification,
           text: 'Notification message with pressing handler.',
           onTap: () => debugPrint('Notification!'),
+        ),
+      );
+
+  /// Removes all messages and adds message to queue.
+  ///
+  /// Use this method instead of ```removeAll``` and then ```show```.
+  void _removeAllAndShow(BuildContext context) =>
+      LilSnackMessenger.of(context).removeAllAndShow(
+        const LilSnack(
+          type: LilSnackType.notification,
+          text: 'Remove all and show example.',
+          showIcon: false,
         ),
       );
 }
